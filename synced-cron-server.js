@@ -218,7 +218,7 @@ SyncedCron._entryWrapper = function (entry) {
       } catch (e) {
         // http://www.mongodb.org/about/contributors/error-codes/
         // 11000 == duplicate key error
-        if (e.code === 11000) {
+        if (e.code === 11000 || e.message?.includes('E11000') || e.sanitizedError?.reason?.includes('E11000')) {
           log.info('Not running "' + entry.name + '" again.');
           return;
         }
